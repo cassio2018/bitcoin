@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #// full deployement :   wget -O - https://raw.githubusercontent.com/badbrainIRC/bitcoin/master/go.sh | bash
-sudo rm -Rf ~/bitcoin
+ rm -Rf ~/bitcoin
 # generating entropy make it harder to guess the randomness!.
 echo "Initializing random number generator..."
 random_seed=/var/run/random-seed
@@ -9,14 +9,14 @@ random_seed=/var/run/random-seed
 # Load and then save the whole entropy pool
 if [ -f $random_seed ]
 then
-    sudo cat $random_seed >/dev/urandom
+     cat $random_seed >/dev/urandom
 else
-    sudo touch $random_seed
+     touch $random_seed
 fi
-sudo chmod 600 $random_seed
+ chmod 600 $random_seed
 poolfile=/proc/sys/kernel/random/poolsize
-[ -r $poolfile ] && bytes=`sudo cat $poolfile` || bytes=512
-sudo dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
+[ -r $poolfile ] && bytes=` cat $poolfile` || bytes=512
+ dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
 
 #Also, add the following lines in an appropriate script which is run during the$
 
@@ -24,11 +24,11 @@ sudo dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
 # Save the whole entropy pool
 echo "Saving random seed..."
 random_seed=/var/run/random-seed
-sudo touch $random_seed
-sudo chmod 600 $random_seed
+ touch $random_seed
+ chmod 600 $random_seed
 poolfile=/proc/sys/kernel/random/poolsize
-[ -r $poolfile ] && bytes=`sudo cat $poolfile` || bytes=512
-sudo dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
+[ -r $poolfile ] && bytes=` cat $poolfile` || bytes=512
+ dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
 
 # Create a swap file
 
@@ -37,51 +37,51 @@ if [ -e /swapfile1 ]
 then
 echo "Swapfile already present"
 else
-sudo dd if=/dev/zero of=/swapfile1 bs=1024 count=1024288
-sudo mkswap /swapfile1
-sudo chown root:root /swapfile1
-sudo chmod 0600 /swapfile1
-sudo swapon /swapfile1
+ dd if=/dev/zero of=/swapfile1 bs=1024 count=1024288
+ mkswap /swapfile1
+ chown root:root /swapfile1
+ chmod 0600 /swapfile1
+ swapon /swapfile1
 fi
 
 # Install dependency
 
-sudo apt-get -y install software-properties-common
+ apt-get -y install software-properties-common
 
-sudo add-apt-repository -y ppa:bitcoin/bitcoin
+ add-apt-repository -y ppa:bitcoin/bitcoin
 
-sudo apt-get update
+ apt-get update
 
-sudo apt-get -y install libcanberra-gtk-module
+ apt-get -y install libcanberra-gtk-module
 
 # Dont need to check if bd is already installed, will override or pass by
 #results=$(find /usr/ -name libdb_cxx.so)
 #if [ -z $results ]; then
-sudo apt-get -y install libdb4.8-dev libdb4.8++-dev
+ apt-get -y install libdb4.8-dev libdb4.8++-dev
 #else
 #grep DB_VERSION_STRING $(find /usr/ -name db.h)
 #echo "BerkeleyDb will not be installed its already there...."
 #fi
 
-sudo apt-get -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev
+ apt-get -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev
 
-sudo apt-get -y install bsdmainutils git libboost-all-dev libminiupnpc-dev libqt5gui5
+ apt-get -y install bsdmainutils git libboost-all-dev libminiupnpc-dev libqt5gui5
 
-sudo apt-get -y install libqt5core5a libqt5dbus5 libevent-dev qttools5-dev
+ apt-get -y install libqt5core5a libqt5dbus5 libevent-dev qttools5-dev
 
-sudo apt-get -y install qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
+ apt-get -y install qttools5-dev-tools libprotobuf-dev protobuf-compiler libqrencode-dev
 
-sudo apt-get -y install zlib1g-dev libseccomp-dev libcap-dev libncap-dev
+ apt-get -y install zlib1g-dev libseccomp-dev libcap-dev libncap-dev
 
-sudo apt-get -y install libunivalue-dev libzmq3-dev
+ apt-get -y install libunivalue-dev libzmq3-dev
 
-sudo apt-get -y install g++ build-essential
+ apt-get -y install g++ build-essential
 
 # Keep current version of libboost if already present
 results=$(find /usr/ -name libboost_chrono.so)
 if [ -z $results ]
 then
-sudo apt-get -y install libboost-all-dev
+ apt-get -y install libboost-all-dev
 else
 red=`tput setaf 1`
 green=`tput setaf 2`
@@ -90,13 +90,13 @@ echo "${green}Libboost will not be installed its already there....${reset}"
 grep --include=*.hpp -r '/usr/' -e "define BOOST_LIB_VERSION"
 fi
 
-sudo apt-get -y install --no-install-recommends gnome-panel
+ apt-get -y install --no-install-recommends gnome-panel
 
-sudo apt-get -y install lynx
+ apt-get -y install lynx
 
-sudo apt-get -y install unzip
+ apt-get -y install unzip
 
-sudo apt-get -y install sed
+ apt-get -y install sed
 
 cd ~
 
@@ -130,11 +130,11 @@ rm db-4.8.30.NC.tar.gz
 cd db-4.8.30.NC/build_unix 
 ../dist/configure --enable-cxx
 make 
-sudo make install 
-sudo ln -s /usr/local/BerkeleyDB.4.8/lib/libdb-4.8.so /usr/lib/libdb-4.8.so
-sudo ln -s /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.so /usr/lib/libdb_cxx-4.8.so
+make install 
+ ln -s /usr/local/BerkeleyDB.4.8/lib/libdb-4.8.so /usr/lib/libdb-4.8.so
+ ln -s /usr/local/BerkeleyDB.4.8/lib/libdb_cxx-4.8.so /usr/lib/libdb_cxx-4.8.so
 cd ~
-sudo rm -Rf db-4.8.30.NC
+ rm -Rf db-4.8.30.NC
 #sudo ldconfig
 fi
 
@@ -143,17 +143,17 @@ fi
 results=$(find /usr/ -name libboost_chrono.so)
 if [ -z $results ]
 then
-sudo rm download
+ rm download
      wget https://sourceforge.net/projects/boost/files/boost/1.67.0/boost_1_67_0.zip/download 
      unzip -o download
      cd boost_1_67_0
 	sh bootstrap.sh
-	sudo ./b2 install
+	 ./b2 install
 	cd ~
-	sudo rm download 
-	sudo rm -Rf boost_1_67_0
+	 rm download 
+	 rm -Rf boost_1_67_0
 	#sudo ln -s $(dirname "$(find /usr/ -name libboost_chrono.so)")/lib*.so /usr/lib
-	sudo ldconfig
+	 ldconfig
         #sudo rm /usr/lib/libboost_chrono.so
 else
      echo "Libboost found..." 
@@ -180,9 +180,9 @@ chmod 777 ~/bitcoin/src/leveldb/build_detect_platform
 
 grep --include=*.hpp -r '/usr/' -e "define BOOST_LIB_VERSION"
 
-sudo rm wrd01.txt
-sudo rm wrd00.txt
-sudo rm words
+ rm wrd01.txt
+ rm wrd00.txt
+ rm words
 find /usr/ -name libboost_chrono.so > words
 split -dl 1 --additional-suffix=.txt words wrd
 
@@ -230,9 +230,9 @@ make USE_UPNP=-
 
 if [ -e ~/bitcoinevolution/src/qt/bitcoin-qt ]
 then
-sudo strip ~/bitcoinevolution/src/bitcoind
-sudo strip ~/bitcoinevolution/src/qt/bitcoin-qt
-sudo make install
+ strip ~/bitcoinevolution/src/bitcoind
+ strip ~/bitcoinevolution/src/qt/bitcoin-qt
+ make install
 else
 echo "Compile fail not bitcoin-qt present"
 fi
